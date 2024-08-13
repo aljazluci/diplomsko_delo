@@ -1,3 +1,5 @@
+/*package RangeQuery;
+
 import java.util.Arrays;
 
 public class SegmentnoDrevoKD {
@@ -104,10 +106,12 @@ public class SegmentnoDrevoKD {
     public static void main(String[] args) {
         Operacija minimum = new Minimum();
         Operacija sum = new Sum();
-        // SegmentnoDrevoKD sD = new SegmentnoDrevoKD(new int[] {1,2,3,4,5,6,7,8,1,7,5,9,3,0,6,2}, new int[] {4,4}, minimum);
+        // RangeQuery.SegmentnoDrevoKD sD = new RangeQuery.SegmentnoDrevoKD(new int[] {1,2,3,4,5,6,7,8,1,7,5,9,3,0,6,2}, new int[] {4,4}, minimum);
          SegmentnoDrevoKD sD = new SegmentnoDrevoKD(new int[] {3,7,-1,4,2,0,-3,1,1,17,-2}, new int[] {11},minimum);
-        // SegmentnoDrevoKD sD = new SegmentnoDrevoKD(new int[] {2,7,8,3,1,4,4,2}, new int[] {2,2,2}, sum);
+        // RangeQuery.SegmentnoDrevoKD sD = new RangeQuery.SegmentnoDrevoKD(new int[] {2,7,8,3,1,4,4,2}, new int[] {2,2,2}, sum);
         System.out.println(Arrays.toString(sD.drevo));
 
     }
 }
+
+ */

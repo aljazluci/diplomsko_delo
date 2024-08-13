@@ -1,3 +1,5 @@
+package RangeQuery;
+/*
 import java.util.Arrays;
 
 public class QuadDrevo {
@@ -32,4 +34,10 @@ class QuadDrevoNode {
     QuadDrevoNode ne;
     QuadDrevoNode se;
 
-}
+    int val;
+
+    QuadDrevoNode(int val) {
+        this.val = val;
+    }
+
+}*/

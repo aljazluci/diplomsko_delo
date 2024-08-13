@@ -1,31 +1,38 @@
+package RangeQuery;
+
 import java.util.Arrays;
 
-public class SegmentnoDrevo {
-    final Operacija operacija;
+public class SegmentnoDrevo<T> implements Queryable<T>{
+    final Operacija<T> operacija;
     final int velOrig; // velikost orig tabele, zaokrožena navzgor do najbližje potence 2
-    int[] drevo;
+    T[] drevo;
 
-    public SegmentnoDrevo(int[] seznam, Operacija operacija) {
+
+    public SegmentnoDrevo(T[] seznam, Operacija<T> operacija) {
         this.operacija  = operacija;
         this.velOrig = 1 << (Integer.SIZE - Integer.numberOfLeadingZeros(seznam.length - 1));
-        this.drevo = new int[2 * velOrig];
-        Arrays.fill(drevo, operacija.elVal);
+        this.drevo = (T[]) new Object[2 * velOrig];
+        Arrays.fill(drevo, operacija.elVal());
         zgradi(seznam, 1);
     }
 
+    public T getElement(int i) {
+        return drevo[i + velOrig];
+    }
+
     // najde minimum na intervalu [lm, dm]
-    public int poizvedi(int a, int b) {
-        return _poizvedi(1, a, b, 0, velOrig - 1);
+    public T poizvedi(int[] range) {
+        return _poizvedi(1, range[0], range[1], 0, velOrig - 1);
     }
 
     // poizvedba [a,b]
     // trenutno pokritje [lv, dv]
-    private int _poizvedi(int index, int a, int b, int lv, int dv) {
+    private T _poizvedi(int index, int a, int b, int lv, int dv) {
         if (a <= lv && b >= dv) {
             return this.drevo[index];
         }
         int sv = (lv + dv) / 2;
-        int rezultat = this.operacija.elVal;
+        T rezultat = this.operacija.elVal();
         // se prekriva z levim
         if (a <= sv) {
             rezultat = this.operacija.funkcija(rezultat, _poizvedi(L(index), a, b, lv, sv));
@@ -36,22 +43,24 @@ public class SegmentnoDrevo {
         return rezultat;
     }
 
-    public void posodobi(int index, int value) {
+    public void posodobi(int[] indices, T value) {
+        int index = indices[0];
         _posodobi(index + velOrig, value);
     }
 
-    private void _posodobi(int index, int value) {
-        this.drevo[index] = operacija.funkcija(this.drevo[index], value);
-        if (index == 1) return;
-        _posodobi(index / 2, value);
+    private void _posodobi(int index, T value) {
+        this.drevo[index] = value;
+        for(index /= 2; index >= 1; index /=2) {
+            this.drevo[index] = operacija.funkcija(this.drevo[L(index)], this.drevo[D(index)]);
+        }
     }
 
-    private void zgradi(int[] seznam, int index) {
+    private void zgradi(T[] seznam, int index) {
         if (index >= velOrig) {
             if (index < seznam.length + velOrig) {
                 this.drevo[index] = seznam[index - velOrig];
             }
-            else this.drevo[index] = operacija.elVal;
+            else this.drevo[index] = operacija.elVal();
             return;
         }
         zgradi(seznam, L(index));
@@ -67,10 +76,10 @@ public class SegmentnoDrevo {
     }
 
     public static void main(String[] args) {
-        Operacija minimum = new Minimum();
+        /*Operacija minimum = new Minimum();
         SegmentnoDrevo sD = new SegmentnoDrevo(new int[] {20, 15, 27, 13, 7, 14, 11, 18, 25, 16, 19}, minimum);
         System.out.println(Arrays.toString(sD.drevo));
-        System.out.println(sD.poizvedi(2, 8));
+        System.out.println(sD.poizvedi(2, 8));*/
     }
 }
 
