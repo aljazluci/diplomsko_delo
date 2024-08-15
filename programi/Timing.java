@@ -53,6 +53,7 @@ public class Timing <T>{
                 {2, 0, 9, 3, 1, 2}, {4, 3, -2, 4, 4, 4}, {1, 2, 3, 4, 5, 6}, {1, -1, 2, 2, 2, 3},
                 {4, 5, 1, -5, 2, 1}, {1, 2, 0, 0, -2, 4}
         };
+        // Integer[][] seznam = {{1,2,3,4},{3,4,5,6},{5,6,7,8},{7,8,9,10}};
         OperacijaFenwick<Integer> f = new Utils.Sum();
         Pair<Integer>[] pairs = queriablesArray2D(seznam, f);
         List<int[]> queryTests = new ArrayList<>();
@@ -81,6 +82,7 @@ public class Timing <T>{
                 System.out.printf("WRONG: %d %d %d %d\n", range[0], range[1], range[2], range[3]);
             }
         }
+        //System.out.println(seznam[8][5]);
 
     }
 
@@ -153,7 +155,6 @@ public class Timing <T>{
                 return false;
             }
         }
-        System.out.println();
         return true;
     }
 
@@ -173,7 +174,7 @@ public class Timing <T>{
         Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje2D<T>(seznam, f), "Naivno");
         Pair<T> p4 = new Pair<T>(new Baseline.NaivnoKumulativnoPoizvedovanje2D<T>(seznam, f), "Naivno kumulativno");
         Pair<T>[] res = (Pair<T>[]) Array.newInstance(Pair.class, 4);
-        res[0] = p1; res[1] = p3; res[2] = p4; res[3] = p2;
+        res[0] = p2; res[1] = p3; res[2] = p4; res[3] = p1;
         return res;
     }
 

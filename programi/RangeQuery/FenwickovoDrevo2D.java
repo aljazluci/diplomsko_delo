@@ -1,5 +1,6 @@
 package RangeQuery;
 
+
 public class FenwickovoDrevo2D<T> implements Queryable<T> {
     OperacijaFenwick<T> operacija;
     T[][] drevo;

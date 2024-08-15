@@ -2,7 +2,7 @@ package RangeQuery;
 
 import java.util.Arrays;
 
-public class SegmentnoDrevo<T> implements Queryable<T>{
+public class   SegmentnoDrevo<T> implements Queryable<T>{
     final Operacija<T> operacija;
     final int velOrig; // velikost orig tabele, zaokrožena navzgor do najbližje potence 2
     T[] drevo;
@@ -21,6 +21,7 @@ public class SegmentnoDrevo<T> implements Queryable<T>{
     }
 
     // najde minimum na intervalu [lm, dm]
+    @Override
     public T poizvedi(int[] range) {
         return _poizvedi(1, range[0], range[1], 0, velOrig - 1);
     }
@@ -43,6 +44,7 @@ public class SegmentnoDrevo<T> implements Queryable<T>{
         return rezultat;
     }
 
+    @Override
     public void posodobi(int[] indices, T value) {
         int index = indices[0];
         _posodobi(index + velOrig, value);
