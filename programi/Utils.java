@@ -2,7 +2,7 @@ import RangeQuery.Operacija;
 import RangeQuery.OperacijaFenwick;
 
 public class Utils {
-    static class Minimum implements Operacija<Integer> {
+    public static class Minimum implements Operacija<Integer> {
         @Override
         public Integer elVal() {
             return Integer.MAX_VALUE;
@@ -13,7 +13,7 @@ public class Utils {
         }
     }
 
-    static class Sum implements OperacijaFenwick<Integer> {
+    public static class Sum implements OperacijaFenwick<Integer> {
 
         @Override
         public Integer elVal() {
@@ -28,7 +28,7 @@ public class Utils {
         }
     }
 
-    static class Multiply implements OperacijaFenwick<Double> {
+    public static class Multiply implements OperacijaFenwick<Double> {
         // ne uporabljaj z 0
         public Double funkcija(Double a, Double b) {
             return a * b;
