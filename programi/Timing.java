@@ -10,8 +10,8 @@ public class Timing <T>{
     public static void main(String[] args) {
         Random random = new Random();
         timing1D(random);
-        timing2D(random);
-        timing3D(random);
+        // timing2D(random);
+        // timing3D(random);
     }
 
     public static void timing1D(Random random) {
