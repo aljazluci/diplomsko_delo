@@ -8,134 +8,274 @@ import java.util.Random;
 
 public class Timing <T>{
     public static void main(String[] args) {
-        // testing1D();
-        // testing2D();
-        testing3D();
+        Random random = new Random();
+        timing1D(random);
+        timing2D(random);
+        timing3D(random);
     }
 
-    public static void testing1D() {
-        Integer[] seznam = {4, 6, 2, 2, 8, -1, 3, 4, -3, 4, 7, 6, 1};
-        OperacijaFenwick<Integer> f = new Utils.Sum();
-        Pair<Integer>[] pairs = queriablesArray(seznam, f);
-        List<int[]> queryTests = new ArrayList<>();
+    public static void timing1D(Random random) {
+        for (int kk = 0; kk < 3; kk++) {
+            System.out.println(kk);
+            OperacijaFenwick<Integer> f = new Utils.Sum();
+            int[] dims = {5000};
+            Integer[] seznam = new Integer[dims[0]];
+            long numberOfOperations = 20000;
+            for (int i = 0; i < seznam.length; i++) {
+                seznam[i] = random.nextInt(1000) - 500;
+            }
+            PairTime<Integer>[] pairTimes = case1D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
 
-        for(int i = 0; i < seznam.length; i++) {
-            for (int j = i; j < seznam.length; j++) {
-                queryTests.add(new int[] {i, j});
+            dims[0] = 15000;
+            seznam = new Integer[dims[0]];
+            for (int i = 0; i < seznam.length; i++) {
+                seznam[i] = random.nextInt(1000) - 500;
             }
-        }
-        for(int[] range: queryTests) {
-            if (!checkEqual(pairs, range)) {
-                System.out.printf("WRONG: %d %d", range[0], range[1]);
-            }
-        }
-        Random ran = new Random();
-        /*
-        for(int i = 0; i < 100; i++) {
-            int ind = ran.nextInt(seznam.length);
-            int val = ran.nextInt(200) - 100;
-            val = val == 0 ? 1 : val;
-            System.out.println(val);
-            for(Pair p: pairs) {
-                p.queryable.posodobi(new int[] {ind}, val);
-            }
-        }*/
-        for(int[] range: queryTests) {
-            if (!checkEqual(pairs, range)) {
-                System.out.printf("WRONG: %d %d\n", range[0], range[1]);
-            }
-        }
+            pairTimes = case1D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
 
+            dims[0] = 30000;
+            seznam = new Integer[dims[0]];
+            for (int i = 0; i < seznam.length; i++) {
+                seznam[i] = random.nextInt(1000) - 500;
+            }
+            pairTimes = case1D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
+        }
     }
 
-    public static void testing2D() {
-        Integer[][] seznam = {{1, 3, 0, -1, 2, 2}, {7, 9, 3, 2, 1, 0}, {4, 4, 3, -3, -3, 0},
-                {2, 0, 9, 3, 1, 2}, {4, 3, -2, 4, 4, 4}, {1, 2, 3, 4, 5, 6}, {1, -1, 2, 2, 2, 3},
-                {4, 5, 1, -5, 2, 1}, {1, 2, 0, 0, -2, 4}
-        };
-        // Integer[][] seznam = {{1,2,3,4},{3,4,5,6},{5,6,7,8},{7,8,9,10}};
-        OperacijaFenwick<Integer> f = new Utils.Sum();
-        Pair<Integer>[] pairs = queriablesArray2D(seznam, f);
-        List<int[]> queryTests = new ArrayList<>();
+    public static void timing2D(Random random) {
+        for (int kk = 0; kk < 3; kk++) {
+            System.out.println(kk);
+            OperacijaFenwick<Integer> f = new Utils.Sum();
+            int[] dims = {100, 100};
+            Integer[][] seznam = new Integer[dims[0]][dims[1]];
+            long numberOfOperations = 10000;
+            for (int i = 0; i < seznam.length; i++) {
+                for (int j = 0; j < seznam[0].length; j++) {
+                    seznam[i][j] = random.nextInt(1000) - 500;
+                }
+            }
+            PairTime<Integer>[] pairTimes = case2D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
 
-        for(int i = 0; i < seznam.length; i++) {
-            for (int j = i; j < seznam.length; j++) {
-                for (int k = 0; k < seznam[0].length; k++) {
-                    for (int l = k; l < seznam[0].length; l++) {
-                        queryTests.add(new int[] {i, j, k, l});
+            dims = new int[]{200, 200};
+            seznam = new Integer[dims[0]][dims[1]];
+            for (int i = 0; i < seznam.length; i++) {
+                for (int j = 0; j < seznam[0].length; j++) {
+                    seznam[i][j] = random.nextInt(1000) - 500;
+                }
+            }
+            pairTimes = case2D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
+
+            dims = new int[]{400, 400};
+            seznam = new Integer[dims[0]][dims[1]];
+            for (int i = 0; i < seznam.length; i++) {
+                for (int j = 0; j < seznam[0].length; j++) {
+                    seznam[i][j] = random.nextInt(1000) - 500;
+                }
+            }
+            pairTimes = case2D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
+        }
+    }
+
+    public static void timing3D(Random random) {
+        for (int kk = 0; kk < 3; kk++) {
+            System.out.println(kk);
+            OperacijaFenwick<Integer> f = new Utils.Sum();
+            int[] dims = {20, 20, 20};
+            Integer[][][] seznam = new Integer[dims[0]][dims[1]][dims[2]];
+            long numberOfOperations = 20000;
+            for (int i = 0; i < seznam.length; i++) {
+                for (int j = 0; j < seznam[0].length; j++) {
+                    for (int k = 0; k < seznam[0][0].length; k++ ){
+                        seznam[i][j][k] = random.nextInt(1000) - 500;
                     }
                 }
             }
-        }
-        Random ran = new Random();
+            PairTime<Integer>[] pairTimes = case3D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
 
-        for(int i = 0; i < 100; i++) {
-            int ind = ran.nextInt(seznam.length); int ind2 = ran.nextInt(seznam[0].length);
-            int val = ran.nextInt(200) - 100;
-            val = val == 0 ? 1 : val;
-            for(Pair<Integer> p: pairs) {
-                p.queryable.posodobi(new int[] {ind, ind2}, val);
-            }
-        }
-        for(int[] range: queryTests) {
-            if (!checkEqual(pairs, range)) {
-                System.out.printf("WRONG: %d %d %d %d\n", range[0], range[1], range[2], range[3]);
-            }
-        }
-        //System.out.println(seznam[8][5]);
-
-    }
-
-    public static void testing3D() {
-        Random rand = new Random();
-        Integer[][][] seznam = new Integer[11][18][7];
-        for (int i = 0; i < seznam.length; i++) {
-            for (int j = 0; j < seznam[0].length; j++) {
-                for (int k = 0; k < seznam[0][0].length; k++) {
-                    seznam[i][j][k] = rand.nextInt(20) - 10;
-                }
-            }
-        }
-
-        OperacijaFenwick<Integer> f = new Utils.Sum();
-        Pair<Integer>[] pairs = queriablesArray3D(seznam, f);
-        List<int[]> queryTests = new ArrayList<>();
-        for(int i = 0; i < seznam.length; i++) {
-            for (int j = i; j < seznam.length; j++) {
-                for (int k = 0; k < seznam[0].length; k++) {
-                    for (int l = k; l < seznam[0].length; l++) {
-                        for (int m = 0; m < seznam[0][0].length; m++) {
-                            for (int n = m; n < seznam[0][0].length; n++) {
-                                queryTests.add(new int[] {i, j, k, l, m, n});
-                            }
-                        }
+            dims = new int[]{40, 40, 40};
+            seznam = new Integer[dims[0]][dims[1]][dims[2]];
+            for (int i = 0; i < seznam.length; i++) {
+                for (int j = 0; j < seznam[0].length; j++) {
+                    for (int k = 0; k < seznam[0][0].length; k++ ){
+                        seznam[i][j][k] = random.nextInt(1000) - 500;
                     }
                 }
             }
-        }
-        Random ran = new Random();
+            pairTimes = case3D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
 
-        for(int i = 0; i < 100; i++) {
-            int ind = ran.nextInt(seznam.length); int ind2 = ran.nextInt(seznam[0].length); int ind3 = ran.nextInt(seznam[0][0].length);
-            int val = ran.nextInt(200) - 100;
-            val = val == 0 ? 1 : val;
-            for(Pair<Integer> p: pairs) {
-                p.queryable.posodobi(new int[] {ind, ind2, ind3}, val);
+            dims = new int[]{60, 60, 60};
+            seznam = new Integer[dims[0]][dims[1]][dims[2]];
+            for (int i = 0; i < seznam.length; i++) {
+                for (int j = 0; j < seznam[0].length; j++) {
+                    for (int k = 0; k < seznam[0][0].length; k++ ){
+                        seznam[i][j][k] = random.nextInt(1000) - 500;
+                    }
+                }
             }
-        }
-        for(int[] range: queryTests) {
-            if (!checkEqual(pairs, range)) {
-                System.out.printf("WRONG: %d %d %d %d %d %d\n", range[0], range[1], range[2], range[3], range[4], range[5]);
-            }
-        }
+            pairTimes = case3D(seznam, f, random, dims, numberOfOperations);
+            if (kk == 2)
+                printIntResults(pairTimes, numberOfOperations, dims);
 
+
+        }
+    }
+
+    static void printIntResults(PairTime<Integer>[] pairTimes, long numberOfOperations, int[] size) {
+        System.out.print("Array size:\t");
+        System.out.println(Arrays.toString(size));
+        for (PairTime<Integer> pairTime : pairTimes) {
+            System.out.print(pairTime.pair.name);
+            System.out.print(":\tupdate:\t");
+            System.out.printf("%08d\tquery:\t%d\n", (pairTime.endTime - pairTime.startTime) / numberOfOperations,
+                    (pairTime.endQuery - pairTime.endTime) / numberOfOperations);
+        }
+    }
+
+    static<T> PairTime<T>[] case2D(T[][] seznam, OperacijaFenwick<T> f, Random random, int[] dims, long noOperations) {
+        PairTime<T>[] pairTimes = queriablesTimesArray2D(seznam, f);
+        for (PairTime<T> pairTime : pairTimes) {
+            // JIT
+            for (long i = 0; i < 20000; i++) {
+                pairTime.pair.queryable.posodobi(randomUpdateIndex(dims, random), (T)randomT(seznam[0][0], random));
+                pairTime.pair.queryable.poizvedi(randomQuery(dims, random));
+            }
+            pairTime.startTime = System.nanoTime();
+            for(long i = 0; i < noOperations; i++) {
+                pairTime.pair.queryable.posodobi(randomUpdateIndex(dims, random), (T)randomT(seznam[0][0], random));
+            }
+            pairTime.endTime = System.nanoTime();
+            for (long i = 0; i < noOperations; i++) {
+                pairTime.pair.queryable.poizvedi(randomQuery(dims, random));
+            }
+            pairTime.endQuery = System.nanoTime();
+        }
+        return pairTimes;
+    }
+
+    static<T> PairTime<T>[] case3D(T[][][] seznam, OperacijaFenwick<T> f, Random random, int[] dims, long noOperations) {
+        PairTime<T>[] pairTimes = queriablesTimesArray3D(seznam, f);
+        for (PairTime<T> pairTime : pairTimes) {
+            // JIT
+            for (long i = 0; i < 20000; i++) {
+                pairTime.pair.queryable.posodobi(randomUpdateIndex(dims, random), (T)randomT(seznam[0][0][0], random));
+                pairTime.pair.queryable.poizvedi(randomQuery(dims, random));
+            }
+            pairTime.startTime = System.nanoTime();
+            for(long i = 0; i < noOperations; i++) {
+                pairTime.pair.queryable.posodobi(randomUpdateIndex(dims, random), (T)randomT(seznam[0][0][0], random));
+            }
+            pairTime.endTime = System.nanoTime();
+            for (long i = 0; i < noOperations; i++) {
+                pairTime.pair.queryable.poizvedi(randomQuery(dims, random));
+            }
+            pairTime.endQuery = System.nanoTime();
+        }
+        return pairTimes;
+    }
+
+    static<T> PairTime<T>[] case1D(T[] seznam, OperacijaFenwick<T> f, Random random, int[] dims, long noOperations) {
+        PairTime<T>[] pairTimes = queriablesTimesArray(seznam, f);
+        for (PairTime<T> pairTime : pairTimes) {
+            // JIT
+            for (long i = 0; i < 20000; i++) {
+                pairTime.pair.queryable.posodobi(randomUpdateIndex(dims, random), (T)randomT(seznam[0], random));
+                pairTime.pair.queryable.poizvedi(randomQuery(dims, random));
+            }
+            pairTime.startTime = System.nanoTime();
+            for(long i = 0; i < noOperations; i++) {
+                pairTime.pair.queryable.posodobi(randomUpdateIndex(dims, random), (T)randomT(seznam[0], random));
+            }
+            pairTime.endTime = System.nanoTime();
+            for (long i = 0; i < noOperations; i++) {
+                pairTime.pair.queryable.poizvedi(randomQuery(dims, random));
+            }
+            pairTime.endQuery = System.nanoTime();
+        }
+        return pairTimes;
+    }
+
+    static Object randomT(Object o, Random random) {
+        if (o instanceof Integer) return random.nextInt(1000) - 500;
+        if (o instanceof Double) {
+            double dbl;
+            do {
+                dbl = -10.0 + 20.0 * random.nextDouble();
+            } while (dbl == 0);
+            return dbl;
+
+        }
+        return null;
+    }
+
+    static <T> PairTime<T>[] queriablesTimesArray(T[] seznam, OperacijaFenwick<T> f) {
+        Pair<T>[] pairs = queriablesArray(seznam, f);
+        PairTime<T>[] res = (PairTime<T>[]) Array.newInstance(PairTime.class, pairs.length);
+        for (int i = 0; i < res.length; i++) {
+            res[i] = new PairTime<>(pairs[i], 0,0 ,0);
+        }
+        return res;
+    }
+
+    static <T> PairTime<T>[] queriablesTimesArray2D(T[][] seznam, OperacijaFenwick<T> f) {
+        Pair<T>[] pairs = queriablesArray2D(seznam, f);
+        PairTime<T>[] res = (PairTime<T>[]) Array.newInstance(PairTime.class, pairs.length);
+        for (int i = 0; i < res.length; i++) {
+            res[i] = new PairTime<>(pairs[i], 0,0 ,0);
+        }
+        return res;
+    }
+
+    static <T> PairTime<T>[] queriablesTimesArray3D(T[][][] seznam, OperacijaFenwick<T> f) {
+        Pair<T>[] pairs = queriablesArray3D(seznam, f);
+        PairTime<T>[] res = (PairTime<T>[]) Array.newInstance(PairTime.class, pairs.length);
+        for (int i = 0; i < res.length; i++) {
+            res[i] = new PairTime<>(pairs[i], 0,0 ,0);
+        }
+        return res;
+    }
+
+
+
+    private static int[] randomQuery(int[] dimSizes, Random random) {
+        int[] res = new int[dimSizes.length * 2];
+        for (int i = 0; i < dimSizes.length; i++) {
+            int start = random.nextInt(dimSizes[i]);
+            int end = start + random.nextInt(dimSizes[i] - start);
+            res[2 * i] = start;
+            res[2 * i + 1] = end;
+        }
+        return res;
+    }
+
+    private static int[] randomUpdateIndex(int[] dimSizes, Random random) {
+        int[] res = new int[dimSizes.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = random.nextInt(dimSizes[i]);
+        }
+        return res;
     }
 
     private static <T> Pair<T>[] queriablesArray3D(T[][][] seznam, OperacijaFenwick<T> f) {
-        Pair<T> p1 = new Pair<T>(new FenwickovoDrevo3D<T>(seznam, f), "Segmentno");
+        Pair<T> p1 = new Pair<T>(new FenwickovoDrevo3D<T>(seznam, f), "Segmentno drevo");
         Pair<T> p2 = new Pair<T>(new FenwickovoDrevo3D<T>(seznam, f), "Fenwickovo drevo");
-        Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje3D<T>(seznam, f), "Naivno");
-        Pair<T> p4 = new Pair<T>(new Baseline.NaivnoKumulativnoPoizvedovanje3D<T>(seznam, f), "Kumulativno");
+        Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje3D<T>(seznam, f), "Naivno iterativno");
+        Pair<T> p4 = new Pair<T>(new Baseline.NaivnoKumulativnoPoizvedovanje3D<T>(seznam, f), "Naivno Kumulativno");
         Pair<T>[] res = (Pair<T>[]) Array.newInstance(Pair.class, 4);
         res[0] = p2; res[1] = p3; res[2] = p4; res[3] = p1;
         return res;
@@ -161,7 +301,7 @@ public class Timing <T>{
     private static <T> Pair<T>[] queriablesArray(T[] seznam, OperacijaFenwick<T> f) {
         Pair<T> p1 = new Pair<T>(new SegmentnoDrevo<T>(seznam, f), "Segmentno drevo");
         Pair<T> p2 = new Pair<T>(new FenwickovoDrevo<T>(seznam, f), "Fenwickovo drevo");
-        Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje<T>(seznam, f), "Naivno");
+        Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje<T>(seznam, f), "Naivno iterativno");
         Pair<T> p4 = new Pair<T>(new Baseline.NaivnoKumulativnoPoizvedovanje<T>(seznam, f), "Naivno kumulativno");
         Pair<T>[] res = (Pair<T>[]) Array.newInstance(Pair.class, 4);
         res[0] = p1; res[1] = p2; res[2] = p3; res[3] = p4;
@@ -171,7 +311,7 @@ public class Timing <T>{
     private static <T> Pair<T>[] queriablesArray2D(T[][] seznam, OperacijaFenwick<T> f) {
         Pair<T> p1 = new Pair<T>(new SegmentnoDrevo2D<T>(seznam, f), "Segmentno drevo");
         Pair<T> p2 = new Pair<T>(new FenwickovoDrevo2D<T>(seznam, f), "Fenwickovo drevo");
-        Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje2D<T>(seznam, f), "Naivno");
+        Pair<T> p3 = new Pair<T>(new Baseline.NaivnoPoizvedovanje2D<T>(seznam, f), "Naivno iterativno:");
         Pair<T> p4 = new Pair<T>(new Baseline.NaivnoKumulativnoPoizvedovanje2D<T>(seznam, f), "Naivno kumulativno");
         Pair<T>[] res = (Pair<T>[]) Array.newInstance(Pair.class, 4);
         res[0] = p2; res[1] = p3; res[2] = p4; res[3] = p1;
@@ -192,5 +332,18 @@ class Pair<T> {
     Pair(Queryable<T> queryable, String name) {
         this.name = name;
         this.queryable = queryable;
+    }
+}
+
+class PairTime<T> {
+    Pair<T> pair;
+    long startTime;
+    long endTime;
+    long endQuery;
+    PairTime(Pair<T> pair, long startTime, long endTime, long endQuery) {
+        this.pair = pair;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.endQuery = endQuery;
     }
 }
